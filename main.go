@@ -27,7 +27,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "[URL]%s\n\n%s", r.URL.Path[6:], string(b))
-
 }
 
 func main() {
