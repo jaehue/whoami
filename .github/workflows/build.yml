@@ -37,3 +37,9 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_SHA_TAG
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_SHA_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      - name: Update ECS service
+        env:
+          ECS_CLUSTER_NAME: salessalon
+          ECS_SERVICE_NAME: whoami
+        run: |
+          aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $ECS_SERVICE_NAME --force-new-deployment

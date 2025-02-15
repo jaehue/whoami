@@ -14,6 +14,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
+func health(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method, r.URL.Path)
+	fmt.Fprintf(w, "ok")
+}
+
 func invokeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -64,6 +69,7 @@ func invokeHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("Start web server")
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/health", health)
 	http.HandleFunc("/invoke", invokeHandler)
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
